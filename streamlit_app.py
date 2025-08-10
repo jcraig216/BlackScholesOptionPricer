@@ -282,8 +282,12 @@ with col2:
 # Heatmap Section
 st.markdown("")
 st.title("Options Price - Interactive Heatmap")
-st.info("Explore how option prices fluctuate with varying 'Spot Prices and Volatility' levels using interactive heatmap parameters, all while maintaining a constant 'Strike Price'.")
-
+with st.expander("How to read this chart"):
+    st.markdown(
+        "- **Spot (x-axis)** and **Volatility (y-axis)** drive the heatmap.\n"
+        "- **Strike (K)**, **rate (r)**, and **time (T)** are fixed by the controls.\n"
+        "- Adjust the axis ranges to zoom into relevant scenarios."
+    )
 # Generate heatmaps for both modes
 tab1, tab2 = st.tabs(["Fair Value", "Profit & Loss"])
 
