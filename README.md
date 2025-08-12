@@ -26,10 +26,10 @@ Interactive **Streamlit** app for exploring European call/put prices and strateg
 
 ## Quickstart
 ```bash
-#Install dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-#Run the app
+# Run the app
 streamlit run streamlit_app.py
 ```
 
@@ -42,6 +42,7 @@ numpy
 pandas
 plotly
 ```
+
 ---
 
 ## How it works
@@ -49,20 +50,23 @@ plotly
 This app implements the **Black–Scholes** model for *European* options.
 
 **Pricing formulas**
-\[
-C = S\,N(d_1) - K\,e^{-rT}\,N(d_2), \qquad
-P = K\,e^{-rT}\,N(-d_2) - S\,N(-d_1)
-\]
+
+C = S·N(d₁) − K·e^(−rT)·N(d₂)  
+
+P = K·e^(−rT)·N(−d₂) − S·N(−d₁)
 
 with
-\[
-d_1 = \frac{\ln(S/K) + \left(r + \tfrac{1}{2}\sigma^2\right)T}{\sigma\sqrt{T}}, 
-\qquad
-d_2 = d_1 - \sigma\sqrt{T}.
-\]
 
-- \(S\) = spot price, \(K\) = strike, \(r\) = risk-free rate, \(T\) = time to expiry (years), \( \sigma \) = annualized volatility  
-- \(N(\cdot)\) = standard normal CDF (computed via `math.erf`, so **no SciPy dependency**)
+d₁ = [ln(S/K) + (r + 0.5·σ²)·T] / [σ·√T]  
+
+d₂ = d₁ − σ·√T
+
+- \( S \) — spot price  
+- \( K \) — strike price  
+- \( r \) — risk-free interest rate  
+- \( T \) — time to expiry (in years)  
+- \( σ \) — annualized volatility  
+- \( N(x) \) — standard normal cumulative distribution function (CDF), computed via `math.erf`
 
 **P&L**
 - Reported P&L is the **model price minus your purchase price** (per contract), shown for calls and puts.
@@ -71,15 +75,14 @@ d_2 = d_1 - \sigma\sqrt{T}.
 - **Delta (Δ):** sensitivity to \(S\)  
 - **Gamma (Γ):** sensitivity of Delta to \(S\)  
 - **Theta (Θ):** **annualized** time decay (per year)  
-- **Vega:** sensitivity to \( \sigma \) (**per vol unit**; for per-1% vol, divide by 100)  
+- **Vega:** sensitivity to \( σ \) (**per vol unit**; for per-1% vol, divide by 100)  
 - **Rho:** sensitivity to \(r\), reported **per 1% change in \(r\)**
 
 **Edge cases**
-- For very small \(T\) or \( \sigma \), prices safely fall back to **intrinsic value**; Greeks use simple, well-behaved defaults.
+- For very small \(T\) or \( σ \), prices safely fall back to **intrinsic value**; Greeks use simple, well-behaved defaults.
 
 **Assumptions**
-- European exercise, frictionless markets, constant \(r\) and \( \sigma \); dividends not modeled.
-
+- European exercise, frictionless markets, constant \(r\) and \( σ \); dividends not modeled.
 
 ---
 
@@ -94,6 +97,7 @@ d_2 = d_1 - \sigma\sqrt{T}.
 ├─ .gitignore
 └─ README.md
 ```
+
 ---
 
 ## Tests
@@ -101,7 +105,6 @@ d_2 = d_1 - \sigma\sqrt{T}.
 ```bash
 pip install pytest
 pytest -q
-
 ```
 
 Includes:
@@ -110,9 +113,9 @@ Includes:
 
 ---
 
-## Acknowlegements
-This app was inspired by other public Black–Scholes calculators, including
-Prudhvi Reddy’s Streamlit demo (https://blackschole.streamlit.app).
+## Acknowledgments
+This app was inspired by other public Black–Scholes calculators, including  
+[Prudhvi Reddy’s Streamlit demo](https://blackschole.streamlit.app).  
 All code and design decisions in this repository are my own implementation.
 
 ---
