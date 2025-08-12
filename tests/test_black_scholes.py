@@ -1,30 +1,29 @@
+#tests/test_black_scholes.py
 import math
-import importlib
+from black_scholes import BlackScholes
 
-# Import the renamed module
-bs = importlib.import_module("black_scholes")
-
-# Helper: try to resolve call/put functions under common names
-def _resolve(name_candidates):
-    for n in name_candidates:
-        fn = getattr(bs, n, None)
-        if callable(fn):
-            return fn
-    raise AttributeError(f"Could not find any of: {name_candidates}")
-
-bs_call = _resolve(["bs_call", "call_price", "BS_CALL", "call"])
-bs_put  = _resolve(["bs_put",  "put_price",  "BS_PUT",  "put"])
+def price_call_put(S, K, r, sigma, T):
+    bs = BlackScholes(
+        time_to_maturity=T,
+        strike=K,
+        current_price=S,
+        volatility=sigma,
+        interest_rate=r,
+        call_purchase_price=0.0,
+        put_purchase_price=0.0,
+    )
+    call_price, put_price, _, _ = bs.calculate_prices()
+    return call_price, put_price
 
 def test_put_call_parity():
-    S, K, r, sigma, T = 100, 100, 0.05, 0.2, 1.0
-    c = bs_call(S, K, r, sigma, T)
-    p = bs_put(S, K, r, sigma, T)
+    S, K, r, sigma, T = 100, 100, 0.05, 0.20, 1.0
+    c, p = price_call_put(S, K, r, sigma, T)
     lhs = c - p
     rhs = S - K * math.exp(-r * T)
     assert abs(lhs - rhs) < 1e-8
 
-def test_known_value_call_loose_band():
-    # Zero-rate sanity: known configuration should be ~8.0
-    S, K, r, sigma, T = 100, 100, 0.0, 0.2, 1.0
-    c = bs_call(S, K, r, sigma, T)
+def test_known_value_call_zero_rate():
+    # Common sanity config: r=0, sigma=0.2, T=1, S=K=100 → call ≈ 7.9656
+    S, K, r, sigma, T = 100, 100, 0.0, 0.20, 1.0
+    c, _ = price_call_put(S, K, r, sigma, T)
     assert 7.9 < c < 8.1
