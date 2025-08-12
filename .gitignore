@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/cache/
+.streamlit/state/
+
+# OS / IDE
+.DS_Store
+.vscode/
+EOF
