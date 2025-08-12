@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import seaborn as sns
-from BlackScholes import BlackScholes
+from black_scholes import BlackScholes
 
 #######################
 # Page configuration
